@@ -15,31 +15,32 @@ io.on('connection', (socket) => {
 
   socket.on('join-room', (room) => {
     socket.join(room);
-  })
+    console.log(`Client joined room: ${room}`);
+  });
 
   socket.on('code-update', (data) => {
     io.to(data.room).emit('code-update', data);
-  })
+  });
 
   socket.on('input-update', (data) => {
     io.to(data.room).emit('input-update', data);
-  })
+  });
 
   socket.on('run-code', (data) => {
     io.to(data.room).emit('run-code', data);
-  })
+  });
 
   socket.on('output-update', (data) => {
     io.to(data.room).emit('output-update', data);
-  })
+  });
 
   socket.on('theme-update', (data) => {
     io.to(data.room).emit('theme-update', data);
-  })
+  });
 
   socket.on('lang-update', (data) => {
     io.to(data.room).emit('lang-update', data);
-  })
+  });
 });
 
 const PORT = process.env.PORT || 4000;

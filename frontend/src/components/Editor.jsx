@@ -84,6 +84,7 @@ function Editor() {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const room = urlParams.get('room');
+        console.log(room);
         if (room) {
           setRoom(room);
           socket.emit('join-room', room);

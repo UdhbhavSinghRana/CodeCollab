@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AceEditor from "react-ace";
+import io from 'socket.io-client';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
@@ -24,8 +25,12 @@ import "ace-builds/src-noconflict/theme-solarized_light";
 
 import "ace-builds/src-noconflict/ext-language_tools";
 
+const socket = io('http://localhost:4000');
+
 function onChange(newValue) {
     console.log("change", newValue);
+
+    io.emit('code-update', newValue);
 }
 
 const fontSizes = [
@@ -70,6 +75,64 @@ function Editor() {
     const [theme, setTheme] = useState('tomorrow_night_blue');
     const [lang, setLang] = useState('java');
     const [fontSize, setFontSize] = useState(16);
+    const [code, setCode] = useState('');
+    const [input, setInput] = useState('');
+    const [output, setOutput] = useState('');
+    const [room, setRoom] = useState('');
+
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const room = urlParams.get('room');
+        console.log(room);
+        if (room) {
+          setRoom(room);
+          socket.emit('join-room', room);
+        }
+    
+        socket.on('theme-update', (data) => {
+          setTheme(data.theme);
+        });
+    
+        socket.on('lang-update', (data) => {
+          setLang(data.lang);
+        });
+    
+        socket.on('font-size-update', (data) => {
+          setFontSize(data.fontSize);
+        });
+    
+        socket.on('code-update', (data) => {
+          setCode(data.code);
+        });
+    
+        socket.on('input-update', (data) => {
+          setInput(data.input);
+        });
+    
+        socket.on('output-update', (data) => {
+          setOutput(data.output);
+        });
+    
+        return () => {
+          socket.off('theme-update');
+          socket.off('lang-update');
+          socket.off('font-size-update');
+          socket.off('code-update');
+          socket.off('input-update');
+          socket.off('output-update');
+        };
+      }, []);
+
+      const handleCodeChange = (newValue) => {
+        setCode(newValue);
+        socket.emit('code-update', { room, code: newValue });
+      };
+    
+      const handleInputChange = (newValue) => {
+        setInput(newValue);
+        socket.emit('input-update', { room, input: newValue });
+      };
 
     return (
         <div>
@@ -113,8 +176,9 @@ function Editor() {
                         mode="java"
                         theme={theme}
                         fontSize={fontSize}
-                        onChange={onChange}
+                        onChange={handleCodeChange}
                         width='100%'
+                        value={code}
                         name="UNIQUE_ID_OF_DIV"
                         editorProps={{ $blockScrolling: true }}
                     />
@@ -131,8 +195,9 @@ function Editor() {
                                 mode="text"
                                 theme={theme}
                                 fontSize={fontSize}
-                                onChange={onChange}
+                                onChange={handleInputChange}
                                 width='100%'
+                                value={input}
                                 height={'25vh'}
                                 name="UNIQUE_ID_OF_DIV"
                                 editorProps={{ $blockScrolling: true }}

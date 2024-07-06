@@ -102,17 +102,65 @@ function Editor() {
                     </select>
                 </div>
             </div>
-            <div className='w-1/2'>
-                <AceEditor className='border-2'
-                    mode="java"
-                    theme={theme}
-                    fontSize={fontSize}
-                    onChange={onChange}
-                    width='100%'
-                    name="UNIQUE_ID_OF_DIV"
-                    editorProps={{ $blockScrolling: true }}
-                />
+            <div className='flex'>
+                <div className='w-1/2'>
+                    <div className="bg-zinc-700 p-1 border-r-2">
+                        <div className="text-white font-mono font-semibold">
+                        WRITE YOUR CODE HERE
+                        </div>
+                    </div>
+                    <AceEditor className='border-2'
+                        mode="java"
+                        theme={theme}
+                        fontSize={fontSize}
+                        onChange={onChange}
+                        width='100%'
+                        name="UNIQUE_ID_OF_DIV"
+                        editorProps={{ $blockScrolling: true }}
+                    />
+                </div>
+                <div className='h-1/4 w-1/2'>
+                    <div className="bg-zinc-700 p-1">
+                        <div className="text-white font-mono font-semibold">
+                        USER INPUT
+                        </div>
+                    </div>
+                    <div className='flex flex-col'>
+                        <div className=''>
+                            <AceEditor className='border-2'
+                                mode="text"
+                                theme={theme}
+                                fontSize={fontSize}
+                                onChange={onChange}
+                                width='100%'
+                                height={'25vh'}
+                                name="UNIQUE_ID_OF_DIV"
+                                editorProps={{ $blockScrolling: true }}
+                            />
+                        </div>
+                        <div>
+                            <div className="bg-zinc-700 p-1">
+                                <div className="text-white font-mono font-semibold">
+                                CODE OUTPUT
+                                </div>
+                            </div>
+
+                            <AceEditor className='border-2'
+                                mode="text"
+                                theme={theme}
+                                fontSize={fontSize}
+                                onChange={onChange}
+                                width='100%'
+                                height={'39vh'}
+                                readOnly={true}
+                                name="UNIQUE_ID_OF_DIV"
+                                editorProps={{ $blockScrolling: true }}
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
+            
     </div>
   )
 }

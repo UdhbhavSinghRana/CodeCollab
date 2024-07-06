@@ -134,6 +134,28 @@ function Editor() {
         socket.emit('input-update', { room, input: newValue });
       };
 
+      const handleRun = () => {
+        fetch('http://localhost:3000/runcode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                code: code,
+                input: input,
+                language: lang,
+            }),
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            setOutput(data.output);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+      }
+
     return (
         <div>
             <div className='flex gap-2'>
@@ -184,10 +206,13 @@ function Editor() {
                     />
                 </div>
                 <div className='h-1/4 w-1/2'>
-                    <div className="bg-zinc-700 p-1">
+                    <div className="bg-zinc-700 p-1 flex flex-row gap-3">
                         <div className="text-white font-mono font-semibold">
                         USER INPUT
                         </div>
+                        <button className=' font-mono font-semibold border-2 px-2 bg-green-800' onClick={handleRun}>
+                          Run
+                        </button>
                     </div>
                     <div className='flex flex-col'>
                         <div className=''>
@@ -217,6 +242,7 @@ function Editor() {
                                 onChange={onChange}
                                 width='100%'
                                 height={'39vh'}
+                                value={output}
                                 readOnly={true}
                                 name="UNIQUE_ID_OF_DIV"
                                 editorProps={{ $blockScrolling: true }}

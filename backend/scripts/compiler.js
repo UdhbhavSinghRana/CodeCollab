@@ -89,21 +89,21 @@ function getFileType(language) {
     }
 }
 
-// Example usage:
-const code = `
-print("hello")
-`;
+// // Example usage:
+// const code = `
+// print("hello")
+// `;
 
-const input = 'Alice\n'; // Example input
-const language = 'python';
+// const input = 'Alice\n'; // Example input
+// const language = 'python';
 
-runCode(code, input, language, (err, output) => {
-    if (err) {
-        console.error('Error:', err.message);
-    } else {
-        console.log('Output:', output);
-    }
-});
+// runCode(code, input, language, (err, output) => {
+//     if (err) {
+//         console.error('Error:', err.message);
+//     } else {
+//         console.log('Output:', output);
+//     }
+// });
 
 // Function to format code based on language
 

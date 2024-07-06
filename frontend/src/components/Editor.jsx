@@ -69,7 +69,8 @@ const themes = [
 function Editor() {
     const [theme, setTheme] = useState('tomorrow_night_blue');
     const [lang, setLang] = useState('java');
-    const [fontSize, setFontSize] = useState('16');
+    const [fontSize, setFontSize] = useState(16);
+
     return (
         <div>
             <div className='flex gap-2'>
@@ -92,7 +93,7 @@ function Editor() {
                     </select>
                 </div>
                 <div>
-                    <select value={fontSize} onChange={(e) => setFontSize(e.target.value)}>
+                    <select value={fontSize} onChange={(e) => setFontSize(parseInt(e.target.value))}>
                         {fontSizes.map((font, index) => (
                             <option key={index} value={font} >
                                 {font}
@@ -101,14 +102,17 @@ function Editor() {
                     </select>
                 </div>
             </div>
-            <AceEditor className='border-2'
-                mode="java"
-                theme={theme}
-                fontSize={fontSize}
-                onChange={onChange}
-                name="UNIQUE_ID_OF_DIV"
-                editorProps={{ $blockScrolling: true }}
-            />
+            <div className='w-1/2'>
+                <AceEditor className='border-2'
+                    mode="java"
+                    theme={theme}
+                    fontSize={fontSize}
+                    onChange={onChange}
+                    width='100%'
+                    name="UNIQUE_ID_OF_DIV"
+                    editorProps={{ $blockScrolling: true }}
+                />
+            </div>
     </div>
   )
 }

@@ -15,6 +15,7 @@ function runCode(code, input, language, callback) {
     const fileName = `code_${Date.now()}.${getFileType(language)}`;
     const filePath = `${tempDir}/${fileName}`;
 
+
     // Write code to the temporary file
     fs.writeFileSync(filePath, code);
 
@@ -28,6 +29,22 @@ function runCode(code, input, language, callback) {
         case 'python':
             command = 'python3';
             args = [filePath];
+            break;
+        case 'java':
+            command = 'javac';
+            args = [filePath];
+            break;
+        case 'c_cpp':
+            command = 'g++';
+            args = [filePath, '-o', `${tempDir}/code`];
+            break;
+        case 'rust':
+            command = 'rustc';
+            args = [filePath];
+            break;
+        case 'kotlin':
+            command = 'kotlinc';
+            args = [filePath, '-include-runtime', '-d', `${tempDir}/code.jar`];
             break;
         // Add more cases for other languages as needed
         default:
@@ -58,6 +75,14 @@ function getFileType(language) {
             return 'js';
         case 'python':
             return 'py';
+        case 'java':
+            return 'java';
+        case 'c_cpp':
+            return 'cpp';
+        case 'rust':
+            return 'rs';
+        case 'kotlin':
+            return 'kt';
         // Add more cases for other languages as needed
         default:
             return '';
@@ -79,5 +104,7 @@ runCode(code, input, language, (err, output) => {
         console.log('Output:', output);
     }
 });
+
+// Function to format code based on language
 
 module.exports = runCode;

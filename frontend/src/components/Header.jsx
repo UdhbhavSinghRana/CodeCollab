@@ -3,7 +3,7 @@ import Logo from '../assets/logo.png';
 import { IoCopy } from "react-icons/io5";
 import { toast } from "react-toastify";
 
-function Header() {
+function Header({toggleSidebar}) {
     // Function to copy the current URL to clipboard
     const copyRoomURLToClipboard = () => {
         const currentUrl = window.location.href;
@@ -15,7 +15,6 @@ function Header() {
     const showNotification = (message) => {
         toast.success(message);
     };
-
     return (
         <div className='flex justify-items-center bg-gray-800'>
             <div className='w-fit text'>
@@ -36,7 +35,7 @@ function Header() {
                 <div className='hover:border-2 hover:bg-gray-700 hover:transition-delay: 500ms p-2 rounded-md'>
                     WhiteBoard
                 </div>
-                <div className='hover:border-2 hover:bg-gray-700 hover:transition-delay: 500ms p-2 rounded-md'>
+                <div className='hover:border-2 hover:bg-gray-700 hover:transition-delay: 500ms p-2 rounded-md' onClick={toggleSidebar}>
                     Problem Statements
                 </div>
             </div>

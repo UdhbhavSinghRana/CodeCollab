@@ -1,17 +1,22 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Header from './components/Header'
 import Editor from './components/Editor'
+import ProblemsPage from "./components/Problems/problems";// Import the Problems component
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Function to toggle sidebar state
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   return (
     <>
-      <Header />
+      <Header toggleSidebar={toggleSidebar}/>
       <Editor />
+      {isSidebarOpen && <ProblemsPage toggleSidebar={toggleSidebar}/>}
     </>
   )
 }

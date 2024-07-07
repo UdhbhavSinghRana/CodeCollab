@@ -10,6 +10,8 @@ import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-rust";
 import "ace-builds/src-noconflict/mode-kotlin";
+import "ace-builds/src-noconflict/mode-golang";
+
 
 
 import "ace-builds/src-noconflict/theme-github";
@@ -66,9 +68,7 @@ const themes = [
     "c_cpp",
     "java",
     "python",
-    "javascript",
-    "rust",
-    "kotlin"
+    "golang"
   ]
 
 function Editor() {
@@ -128,11 +128,26 @@ function Editor() {
         setCode(newValue);
         socket.emit('code-update', { room, code: newValue });
       };
+
+      const handleThemeChange = (newTheme) => {
+        setTheme(newTheme);
+        socket.emit('theme-update', { room, theme: newTheme });
+      }
+
+      const handleLangChange = (newLang) => {
+        setLang(newLang);
+        socket.emit('lang-update', { room, lang: newLang });
+      }
     
       const handleInputChange = (newValue) => {
         setInput(newValue);
         socket.emit('input-update', { room, input: newValue });
       };
+      
+      const handleOutputChange = (newValue) => {
+        setOutput(newValue);
+        socket.emit('output-update', { room, output: newValue });
+      }
 
       const handleRun = () => {
         fetch('http://localhost:3000/', {
@@ -155,6 +170,18 @@ function Editor() {
             console.error('Error:', error);
         });
       }
+
+      useEffect(() => {
+        handleLangChange(lang);
+      }, [lang]);
+
+      useEffect(() => {
+        handleThemeChange(theme);
+      }, [theme]);
+
+      useEffect(() => {
+        handleOutputChange(output);
+      }, [output]);
 
     return (
         <div>

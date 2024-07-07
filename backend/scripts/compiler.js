@@ -3,6 +3,7 @@ const { exec } = require('child_process');
 
 // Function to run code and return output
 function runCode(code, input, language, callback) {
+    const executeCode = exec(executeCodeCommand, executionArgs || []);
     // Define a directory for temporary files
     const tempDir = './temp';
 
@@ -52,8 +53,15 @@ function runCode(code, input, language, callback) {
     }
 
     // Execute the code with input
-    exec(`${command} ${args.join(' ')}`, { input }, (error, stdout, stderr) => {
+    console.log(input)
+    exec(`${command} ${args.join(' ')} ${ input }`, (error, stdout, stderr) => {
         // Delete the temporary file after execution
+        if (input !== "") {
+            input.split('\n').forEach((line) => {
+                executeCode.stdin.write(`${line}\n`);
+            });
+            executeCode.stdin.end();
+        }
         fs.unlinkSync(filePath);
 
         if (error) {

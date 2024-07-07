@@ -7,6 +7,30 @@ const {spawn} = require("child_process");
 async function runCode({language = "", code = "", input = ""}) {
     const timeout = 30;
 
+    if (language === "python") {
+        language = "py";
+    }
+
+    if (language === "javascript") {
+        language = "js";
+    }
+
+    if (language === "c_cpp") {
+        language = "cpp";
+    }
+
+    if (language === "rust") {
+        language = "rs";
+    }
+
+    if (language === "kotlin") {
+        language = "kt";
+    }
+
+    if (language === "golang") {
+        language = "go";
+    }
+
     if (code === "")
         throw {
             status: 400,

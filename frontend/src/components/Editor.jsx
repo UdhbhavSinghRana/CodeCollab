@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AceEditor from "react-ace";
+import io from 'socket.io-client';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
@@ -9,6 +10,8 @@ import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-rust";
 import "ace-builds/src-noconflict/mode-kotlin";
+import "ace-builds/src-noconflict/mode-golang";
+
 
 
 import "ace-builds/src-noconflict/theme-github";
@@ -24,8 +27,12 @@ import "ace-builds/src-noconflict/theme-solarized_light";
 
 import "ace-builds/src-noconflict/ext-language_tools";
 
+const socket = io('http://localhost:4000');
+
 function onChange(newValue) {
     console.log("change", newValue);
+
+    io.emit('code-update', newValue);
 }
 
 const fontSizes = [
@@ -61,15 +68,120 @@ const themes = [
     "c_cpp",
     "java",
     "python",
-    "javascript",
-    "rust",
-    "kotlin"
+    "golang"
   ]
 
 function Editor() {
     const [theme, setTheme] = useState('tomorrow_night_blue');
     const [lang, setLang] = useState('java');
     const [fontSize, setFontSize] = useState(16);
+    const [code, setCode] = useState('');
+    const [input, setInput] = useState('');
+    const [output, setOutput] = useState('');
+    const [room, setRoom] = useState('');
+
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const room = urlParams.get('room');
+        console.log(room);
+        if (room) {
+          setRoom(room);
+          socket.emit('join-room', room);
+        }
+    
+        socket.on('theme-update', (data) => {
+          setTheme(data.theme);
+        });
+    
+        socket.on('lang-update', (data) => {
+          setLang(data.lang);
+        });
+    
+        socket.on('font-size-update', (data) => {
+          setFontSize(data.fontSize);
+        });
+    
+        socket.on('code-update', (data) => {
+          setCode(data.code);
+        });
+    
+        socket.on('input-update', (data) => {
+          setInput(data.input);
+        });
+    
+        socket.on('output-update', (data) => {
+          setOutput(data.output);
+        });
+    
+        return () => {
+          socket.off('theme-update');
+          socket.off('lang-update');
+          socket.off('font-size-update');
+          socket.off('code-update');
+          socket.off('input-update');
+          socket.off('output-update');
+        };
+      }, []);
+
+      const handleCodeChange = (newValue) => {
+        setCode(newValue);
+        socket.emit('code-update', { room, code: newValue });
+      };
+
+      const handleThemeChange = (newTheme) => {
+        setTheme(newTheme);
+        socket.emit('theme-update', { room, theme: newTheme });
+      }
+
+      const handleLangChange = (newLang) => {
+        setLang(newLang);
+        socket.emit('lang-update', { room, lang: newLang });
+      }
+    
+      const handleInputChange = (newValue) => {
+        setInput(newValue);
+        socket.emit('input-update', { room, input: newValue });
+      };
+      
+      const handleOutputChange = (newValue) => {
+        setOutput(newValue);
+        socket.emit('output-update', { room, output: newValue });
+      }
+
+      const handleRun = () => {
+        fetch('http://localhost:3000/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                code: code,
+                input: input,
+                language: lang,
+            }),
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            setOutput(data.output);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+      }
+
+      useEffect(() => {
+        handleLangChange(lang);
+      }, [lang]);
+
+      useEffect(() => {
+        handleThemeChange(theme);
+      }, [theme]);
+
+      useEffect(() => {
+        handleOutputChange(output);
+      }, [output]);
 
     return (
         <div>
@@ -113,17 +225,21 @@ function Editor() {
                         mode="java"
                         theme={theme}
                         fontSize={fontSize}
-                        onChange={onChange}
+                        onChange={handleCodeChange}
                         width='100%'
+                        value={code}
                         name="UNIQUE_ID_OF_DIV"
                         editorProps={{ $blockScrolling: true }}
                     />
                 </div>
                 <div className='h-1/4 w-1/2'>
-                    <div className="bg-zinc-700 p-1">
+                    <div className="bg-zinc-700 p-1 flex flex-row gap-3">
                         <div className="text-white font-mono font-semibold">
                         USER INPUT
                         </div>
+                        <button className=' font-mono font-semibold border-2 px-2 bg-green-800' onClick={handleRun}>
+                          Run
+                        </button>
                     </div>
                     <div className='flex flex-col'>
                         <div className=''>
@@ -131,8 +247,9 @@ function Editor() {
                                 mode="text"
                                 theme={theme}
                                 fontSize={fontSize}
-                                onChange={onChange}
+                                onChange={handleInputChange}
                                 width='100%'
+                                value={input}
                                 height={'25vh'}
                                 name="UNIQUE_ID_OF_DIV"
                                 editorProps={{ $blockScrolling: true }}
@@ -152,6 +269,7 @@ function Editor() {
                                 onChange={onChange}
                                 width='100%'
                                 height={'39vh'}
+                                value={output}
                                 readOnly={true}
                                 name="UNIQUE_ID_OF_DIV"
                                 editorProps={{ $blockScrolling: true }}

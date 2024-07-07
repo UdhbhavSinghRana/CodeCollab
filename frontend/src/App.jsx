@@ -1,23 +1,21 @@
 import { useState } from 'react'
 import './App.css'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header'
 import Editor from './components/Editor'
-import ProblemsPage from "./components/Problems/problems";// Import the Problems component
+
+import Home from './Home'
 
 function App() {
-  const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
-
-  // Function to toggle sidebar state
-  const toggleSidebar = () => {
-    setIsSideDrawerOpen(!isSideDrawerOpen);
-  };
 
   return (
     <>
-      <Header toggleSidebar={toggleSidebar}/>
-    <ProblemsPage  isOpen={isSideDrawerOpen} setIsSideDrawerOpen={setIsSideDrawerOpen}/>
-      <Editor />
-     
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/room*" element={<Home />} />
+      </Routes>
+    </Router>
     </>
   )
 }

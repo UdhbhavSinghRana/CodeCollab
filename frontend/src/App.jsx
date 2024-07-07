@@ -5,18 +5,19 @@ import Editor from './components/Editor'
 import ProblemsPage from "./components/Problems/problems";// Import the Problems component
 
 function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
 
   // Function to toggle sidebar state
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSideDrawerOpen(!isSideDrawerOpen);
   };
 
   return (
     <>
       <Header toggleSidebar={toggleSidebar}/>
+    <ProblemsPage  isOpen={isSideDrawerOpen} setIsSideDrawerOpen={setIsSideDrawerOpen}/>
       <Editor />
-      {isSidebarOpen && <ProblemsPage toggleSidebar={toggleSidebar}/>}
+     
     </>
   )
 }

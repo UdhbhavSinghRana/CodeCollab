@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IoMdClose } from "react-icons/io";
 import './problems.css'; // Ensure Tailwind CSS styles are properly imported
 
-function Problems({ toggleSidebar }) {
+function Problems({ isOpen, setIsSideDrawerOpen  }) {
   const [selectedProblemConstraints, setSelectedProblemConstraints] = useState('');
   const [selectedProblemComplex, setSelectedProblemComplex] = useState('');
   const [selectedProblemTC, setSelectedProblemTC] = useState('');
@@ -16,8 +16,7 @@ function Problems({ toggleSidebar }) {
     setSelectedProblemTC(problem.testcase);
     setSelectedProblemDesc(problem.description);
     setSelectedProblemName(problem.name);
-    toggleSidebar(); // Close sidebar when problem is clicked
-    setIsShow(true); // Show details of the selected problem
+    setIsSideDrawerOpen(false); // Close sidebar when problem is clicked
   };
 
   const problems = [
@@ -96,11 +95,11 @@ Expected Auxiliary Space: O(1)`,
   ];
 
   return (
-    <div className='relative'>
+    <div className='flex justify-center content-center'>
       {/* Sidebar */}
-      <div className={`SideDrawer ${toggleSidebar ? 'open' : ''}`}>
+      <div className={`SideDrawer ${isOpen  ? 'open' : ''}`}>
         <div className='flex justify-end p-4'>
-          <IoMdClose className='close-button' onClick={toggleSidebar} />
+          <IoMdClose className='close-button' onClick={() => setIsSideDrawerOpen(false)} />
         </div>
         {/* Sidebar content */}
         <ul>
@@ -108,7 +107,10 @@ Expected Auxiliary Space: O(1)`,
             <li key={index}>
               <button
                 className='block text-left px-4 py-2 w-full'
-                onClick={() => handleClick(problem)}
+                onClick={() => {
+              handleClick(problem);
+              setIsShow(true);
+            }}
               >
                 {problem.name}
               </button>
@@ -117,8 +119,8 @@ Expected Auxiliary Space: O(1)`,
         </ul>
       </div>
 
-      <div className="flex overflow-auto bg-neutral-700 text-white">
-        {isShow && (
+      {/* Problem details section */}
+      <div className="flex overflow-auto bg-neutral-700 text-white">       {isShow && (
           <div className="p-10">
             <div
               className="absolute inline right-10 text-4xl cursor-pointer bg-neutral-700 text-white "

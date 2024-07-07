@@ -135,7 +135,7 @@ function Editor() {
       };
 
       const handleRun = () => {
-        fetch('http://localhost:3000/runcode', {
+        fetch('http://localhost:3000/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

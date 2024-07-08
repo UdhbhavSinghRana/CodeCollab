@@ -150,7 +150,7 @@ function Editor() {
       }
 
       const handleRun = () => {
-        fetch('http://localhost:3000/', {
+        fetch('http://localhost:3000/compile', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

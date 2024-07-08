@@ -52,6 +52,20 @@ io.on('connection', (socket) => {
   socket.on('lang-update', (data) => {
     io.to(data.room).emit('lang-update', data);
   });
+
+  socket.on('whiteboard-update', (data) => {
+    // Broadcast the update to all clients in the same room
+    console.log('whiteboard-update', data);
+    io.to(data.room).emit('whiteboard-update', data.imageData);
+  });
+
+  socket.on('toggled-whiteboard', (data) => {
+    io.to(data.room).emit('toggled-whiteboard', data);
+  });
+
+  socket.on('color-update', (data) => {
+    io.to(data.room).emit('color-update', data);
+  });
 });
 
 const PORT = process.env.PORT || 4000;

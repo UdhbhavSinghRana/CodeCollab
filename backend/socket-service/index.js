@@ -58,6 +58,10 @@ io.on('connection', (socket) => {
     console.log('whiteboard-update', data);
     io.to(data.room).emit('whiteboard-update', data.imageData);
   });
+
+  socket.on('toggled-whiteboard', (data) => {
+    io.to(data.room).emit('toggled-whiteboard', data);
+  });
 });
 
 const PORT = process.env.PORT || 4000;

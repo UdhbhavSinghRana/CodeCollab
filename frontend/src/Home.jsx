@@ -22,7 +22,7 @@ function Home() {
 
   const toggleWhiteboard = () => {
     setIsWhiteboardOpen(!isWhiteboardOpen);
-    //socket.emit('toggled-whiteboard', { room, isWhiteboardOpen: !isWhiteboardOpen });
+    socket.emit('toggled-whiteboard', { room, isWhiteboardOpen: !isWhiteboardOpen });
   };
 
   // Redirect to a random room number
@@ -34,18 +34,18 @@ function Home() {
     }
   }, [location, navigate]);
 
-  // useEffect(() => {
-  //   socket.on('toggled-whiteboard', (data) => {
-  //     setIsWhiteboardOpen(data.isWhiteboardOpen);
-  //   }
-  // ),[]});
+  useEffect(() => {
+    socket.on('toggled-whiteboard', (data) => {
+      setIsWhiteboardOpen(data.isWhiteboardOpen);
+    }
+  ),[]});
 
   return (
     <div>
         <Header toggleSidebar={toggleSidebar} toggleWhiteboard={toggleWhiteboard}/>
         <ProblemsPage  isOpen={isSideDrawerOpen} setIsSideDrawerOpen={setIsSideDrawerOpen}/>
-          <Whiteboard isOpen={isWhiteboardOpen} setIsWhiteboardOpen={setIsWhiteboardOpen}/>
-          <Editor />
+        <Whiteboard isOpen={isWhiteboardOpen} setIsWhiteboardOpen={setIsWhiteboardOpen}/>
+        <Editor />
     </div>
   )
 }

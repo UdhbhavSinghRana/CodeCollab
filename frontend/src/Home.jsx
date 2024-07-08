@@ -10,6 +10,7 @@ function Home() {
   const toggleSidebar = () => {
     setIsSideDrawerOpen(!isSideDrawerOpen);
   };
+  
   return (
     <div>
         <Header toggleSidebar={toggleSidebar}/>

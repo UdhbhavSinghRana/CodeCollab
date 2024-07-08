@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AceEditor from "react-ace";
-import io from 'socket.io-client';
+import io from "socket.io-client"
+import socket from '../socket';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
@@ -27,7 +28,6 @@ import "ace-builds/src-noconflict/theme-solarized_light";
 
 import "ace-builds/src-noconflict/ext-language_tools";
 
-const socket = io('http://localhost:4000');
 
 function onChange(newValue) {
     console.log("change", newValue);

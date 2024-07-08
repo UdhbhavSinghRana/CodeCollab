@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
+import io from "socket.io-client";
+import socket from '../socket';
 
 function Whiteboard({ isOpen, setIsWhiteboardOpen }) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const room = urlParams.get('room');
   const canvasRef = useRef(null);
   const colorOptions = useRef('');
   const [painting, setPainting] = useState(false);
@@ -41,6 +45,11 @@ function Whiteboard({ isOpen, setIsWhiteboardOpen }) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     ctx.beginPath();
+
+    socket.emit('whiteboard-update', {
+      room: room,
+      imageData: canvas.toDataURL()
+    });
   };
 
   const clearCanvas = () => {
@@ -50,7 +59,7 @@ function Whiteboard({ isOpen, setIsWhiteboardOpen }) {
   };
 
   const showColorOptions = () => {
-    colorOptions.current.className = 'absolute -top-32 bg-gray-600 w-32 h-32 left-0';
+    colorOptions.current.className = 'absolute -top-45 bg-gray-600 w-48 h-32 left-10 mt-8 z-10 p-2 grid grid-cols-4 gap-1';
   };
 
   const changeColor = (e) => {
@@ -62,12 +71,24 @@ function Whiteboard({ isOpen, setIsWhiteboardOpen }) {
     colorOptions.current.className = 'absolute -top-32 hidden bg-gray-600 w-32 h-32 left-0';
   };
 
+  useEffect(() => {
+    socket.on('whiteboard-update', (imageData) => {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+      };
+      img.src = imageData;
+    });
+  }, []);
+
   return (
     isOpen && (
       <>
       <div>
-      <div className='flex w-full h-1/5 py-2'>
-            <div className='w-full p-2 bg-gray-800 border-2 flex gap-2'>
+      <div className='flex w-full h-1/5 py-2 text-white'>
+            <div className='w-full p-2 bg-gray-800 border-2 flex gap-10 justify-center '>
               <button onClick={() => setLineThickness(10)}>
                 Pencil
               </button>
@@ -76,15 +97,14 @@ function Whiteboard({ isOpen, setIsWhiteboardOpen }) {
               </button>
               <div className="relative">
                 <div
-                  className="absolute -top-32 hidden bg-gray-600 w-32 h-32 left-0"
+                  className="absolute -top-32 hidden bg-gray-600 w-48 h-32 left-0 grid grid-cols-4 gap-1 p-2"
                   ref={colorOptions}
                 >
                   <button className="absolute right-0 top-0" onClick={hideColorOptions}>
                     X
                   </button>
-                  {["Violet", "Black", "Red", "Blue", "White", "Yellow"].map((clr) => (
-                    <button key={clr} onClick={changeColor} value={clr}>
-                      {clr}
+                  {["Violet", "Black", "Red", "Blue", "White", "Yellow", "Green", "Orange", "Pink", "Brown", "Purple", "Gray"].map((clr) => (
+                    <button key={clr} onClick={changeColor} value={clr} className={`w-6 h-6`} style={{ backgroundColor: clr }}>
                     </button>
                   ))}
                 </div>
@@ -97,7 +117,7 @@ function Whiteboard({ isOpen, setIsWhiteboardOpen }) {
       </div>
       <div className='flex relative w-full h-screen items-center justify-center border-2 border-blue-400'>
         <canvas
-          className='w-[80%] h-[80%] border-2 border-red-500 bg-white'
+          className='w-[90%] h-[90%] border-2 border-red-500 bg-white'
           ref={canvasRef}
           onMouseDown={startDrawing}
           onMouseUp={stopDrawing}

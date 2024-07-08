@@ -65,6 +65,11 @@ function Whiteboard({ isOpen, setIsWhiteboardOpen }) {
   const changeColor = (e) => {
     setColor(e.target.value);
     hideColorOptions();
+
+    socket.emit('color-update', {
+      room: room,
+      color: e.target.value
+    })
   };
 
   const hideColorOptions = () => {
@@ -80,6 +85,10 @@ function Whiteboard({ isOpen, setIsWhiteboardOpen }) {
         ctx.drawImage(img, 0, 0);
       };
       img.src = imageData;
+    });
+
+    socket.on('color-update', (data) => {
+      setColor(data.color);
     });
   }, []);
 

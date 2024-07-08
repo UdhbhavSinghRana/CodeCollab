@@ -62,6 +62,10 @@ io.on('connection', (socket) => {
   socket.on('toggled-whiteboard', (data) => {
     io.to(data.room).emit('toggled-whiteboard', data);
   });
+
+  socket.on('color-update', (data) => {
+    io.to(data.room).emit('color-update', data);
+  });
 });
 
 const PORT = process.env.PORT || 4000;

@@ -3,7 +3,7 @@ import Logo from '../assets/logo.png';
 import { IoCopy } from "react-icons/io5";
 import { toast } from "react-toastify";
 
-function Header({toggleSidebar}) {
+function Header({toggleSidebar, toggleWhiteboard}) {
     // Function to copy the current URL to clipboard
     const copyRoomURLToClipboard = () => {
         const currentUrl = window.location.href;
@@ -32,7 +32,7 @@ function Header({toggleSidebar}) {
                 <div className='hover:border-2 hover:bg-gray-700 p-2 rounded-md'>
                     Code Editor
                 </div>
-                <div className='hover:border-2 hover:bg-gray-700 hover:transition-delay: 500ms p-2 rounded-md'>
+                <div className='hover:border-2 hover:bg-gray-700 hover:transition-delay: 500ms p-2 rounded-md' onClick={toggleWhiteboard}>
                     WhiteBoard
                 </div>
                 <div className='hover:border-2 hover:bg-gray-700 hover:transition-delay: 500ms p-2 rounded-md' onClick={toggleSidebar}>

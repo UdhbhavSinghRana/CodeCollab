@@ -2,16 +2,17 @@ import React from 'react';
 import Logo from '../assets/logo.png';
 import { IoCopy } from "react-icons/io5";
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
-function Header({toggleSidebar, toggleWhiteboard}) {
-    // Function to copy the current URL to clipboard
+function Header({ toggleSidebar, toggleWhiteboard, setIsLoggedOut }) {
+    const navigate = useNavigate();
+
     const copyRoomURLToClipboard = () => {
         const currentUrl = window.location.href;
         navigator.clipboard.writeText(currentUrl);
         showNotification("Copied");
     };
 
-    // Function to show toast notification
     const showNotification = (message) => {
         toast.success(message);
     };
@@ -21,7 +22,13 @@ function Header({toggleSidebar, toggleWhiteboard}) {
             top: document.body.scrollHeight,
             behavior: 'smooth'
         });
-    }
+    };
+
+    const handleLogout = () => {
+        localStorage.clear();
+        setIsLoggedOut(true);
+        navigate('/SignIn');
+    };
 
     return (
         <div className='flex justify-items-center bg-gray-800'>
@@ -29,8 +36,7 @@ function Header({toggleSidebar, toggleWhiteboard}) {
                 <img src={Logo} width={300} alt="Logo" />
             </div>
             <div className='text-slate-200 flex justify-end w-full gap-16 items-center pr-10'>
-                <div className='hover:border-2 hover:bg-gray-700 p-2 rounded-md flex items-center'
-                    onClick={copyRoomURLToClipboard}>
+                <div className='hover:border-2 hover:bg-gray-700 p-2 rounded-md flex items-center' onClick={copyRoomURLToClipboard}>
                     <IoCopy className='mr-1' />
                     <span>Room URL</span>
                 </div>
@@ -42,6 +48,9 @@ function Header({toggleSidebar, toggleWhiteboard}) {
                 </div>
                 <div className='hover:border-2 hover:bg-gray-700 hover:transition-delay: 500ms p-2 rounded-md' onClick={toggleSidebar}>
                     Problem Statements
+                </div>
+                <div className='hover:border-2 hover:bg-gray-700 hover:transition-delay: 500ms p-2 rounded-md' onClick={handleLogout}>
+                    Log out
                 </div>
             </div>
         </div>

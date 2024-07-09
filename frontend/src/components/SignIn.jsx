@@ -1,12 +1,13 @@
 import { useState, useRef } from 'react';
-// import axios from "axios";
+import axios from "axios";
 import socket from '../socket';
+import { useNavigate } from 'react-router-dom';
 
 const BASE_URL = import.meta.env.PROD
     ? 'https://chatsphere-yuu4.onrender.com'
     : 'http://localhost:5000';
 
-function SignIn() {
+function SignIn({ setIsLoggedOut }) {
     // const { setUser } = useContext(ChatContext);
 
     const [tf, setTf] = useState(true);
@@ -22,6 +23,7 @@ function SignIn() {
     const textS = useRef('');
     const textM = useRef('');
     const Uname = useRef('');
+    const navigate = useNavigate();
 
     const [Name, SetName] = useState('');
     const [Email, SetEmail] = useState('');
@@ -80,57 +82,61 @@ function SignIn() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (tf) {
+            console.log("Create");
+            if (!Name || !Email || !Password) {
+                alert("Please fill all the fields");
+                return;
+            }
+            if (Password.length < 6) {
+                alert("Password should be atleast 6 characters long");
+                return;
+            }
+            try {
+                const config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                };
+                const { data } = await axios.post(
+                    `${BASE_URL}/api/registration`,
+                    { name: Name, password: Password, email: Email },
+                    config
+                );
 
-        // Uncomment and complete this section for actual form handling with axios
-        // if (tf) {
-        //     console.log("Create");
-        //     if (!Name || !Email || !Password) {
-        //         alert("Please fill all the fields");
-        //         return;
-        //     }
-        //     try {
-        //         const config = {
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //         };
-        //         const { data } = await axios.post(
-        //             `${BASE_URL}/api/users`,
-        //             { name: Name, password: Password, email: Email },
-        //             config
-        //         );
+                localStorage.setItem("userInfo", JSON.stringify(data.activationToken));
+                console.log(data);
+                navigate('/activation');
+                setUser(data);
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            console.log("Login");
+            if (!Email || !Password) {
+                alert("Please fill all the fields");
+                return;
+            }
+            try {
+                const config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                };
+                const { data } = await axios.post(
+                    `${BASE_URL}/api/login`,
+                    { email: Email, password: Password },
+                    config
+                );
 
-        //         localStorage.setItem("userInfo", JSON.stringify(data));
-        //         setUser(data);
-        //         socket.connect();
-        //     } catch (err) {
-        //         console.log(err);
-        //     }
-        // } else {
-        //     console.log("Login");
-        //     if (!Email || !Password) {
-        //         alert("Please fill all the fields");
-        //         return;
-        //     }
-        //     try {
-        //         const config = {
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //         };
-        //         const { data } = await axios.post(
-        //             `${BASE_URL}/api/users/login`,
-        //             { email: Email, password: Password },
-        //             config
-        //         );
-
-        //         localStorage.setItem("userInfo", JSON.stringify(data));
-        //         setUser(data);
-        //         socket.connect();
-        //     } catch (err) {
-        //         console.log(err);
-        //     }
-        // }
+                localStorage.setItem("userInfo", JSON.stringify(data.accessToken));
+                console.log(data); 
+                setIsLoggedOut(false);
+                navigate('/');
+            } catch (err) {
+                console.log(err);
+            }
+        }
 
         console.log("hello world");
     };

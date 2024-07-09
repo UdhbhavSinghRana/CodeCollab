@@ -27,6 +27,7 @@ import "ace-builds/src-noconflict/theme-ambiance";
 import "ace-builds/src-noconflict/theme-solarized_light";
 
 import "ace-builds/src-noconflict/ext-language_tools";
+import { useNavigate } from 'react-router-dom';
 
 
 function onChange(newValue) {
@@ -70,6 +71,7 @@ const themes = [
   ]
 
 function Editor() {
+    
     const [theme, setTheme] = useState('tomorrow_night_blue');
     const [lang, setLang] = useState('java');
     const [fontSize, setFontSize] = useState(16);

@@ -6,7 +6,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import socket from './socket';
 import Whiteboard from './components/Whiteboard';
 import ChatBox from './components/ChatBox';
-import SaveCode from './components/SaveCode';
 
 function Home({ setIsLoggedOut }) {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));

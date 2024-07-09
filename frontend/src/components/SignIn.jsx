@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import axios from "axios";
 import socket from '../socket';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const BASE_URL = import.meta.env.PROD
     ? 'https://chatsphere-yuu4.onrender.com'
@@ -105,6 +106,7 @@ function SignIn({ setIsLoggedOut }) {
                 );
 
                 localStorage.setItem("userInfo", JSON.stringify(data.activationToken));
+                Cookies.set('token', data.activationToken);
                 console.log(data);
                 navigate('/activation');
                 setUser(data);
@@ -129,7 +131,9 @@ function SignIn({ setIsLoggedOut }) {
                     config
                 );
 
-                localStorage.setItem("userInfo", JSON.stringify(data.accessToken));
+                localStorage.setItem("userInfo", JSON.stringify(data));
+                Cookies.set('access_token', data.accessToken, { expires: 7 });
+                console.log(Cookies.get('access_token'));
                 console.log(data); 
                 setIsLoggedOut(false);
                 navigate('/');

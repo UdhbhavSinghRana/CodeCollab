@@ -7,6 +7,7 @@ import io from "socket.io-client";
 import socket from './socket';
 import Whiteboard from './components/Whiteboard';
 import ChatBox from './components/ChatBox';
+import SignIn from './components/SignIn';
 
 
 function Home() {
@@ -48,6 +49,7 @@ function Home() {
         <Whiteboard isOpen={isWhiteboardOpen} setIsWhiteboardOpen={setIsWhiteboardOpen}/>
         <Editor />
         <ChatBox/>
+        {/* <SignIn /> */}
     </div>
   )
 }

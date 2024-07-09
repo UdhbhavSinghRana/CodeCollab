@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import { CiMenuBurger } from "react-icons/ci";
 
-function Header({ toggleSidebar, toggleWhiteboard, setIsLoggedOut }) {
+function Header({ toggleSidebar, toggleWhiteboard, setIsLoggedOut, toggleCode }) {
     const navigate = useNavigate();
 
     const copyRoomURLToClipboard = () => {
@@ -34,11 +34,6 @@ function Header({ toggleSidebar, toggleWhiteboard, setIsLoggedOut }) {
     return (
         <div className='flex justify-items-center bg-gray-800'>
             <div className='flex'>
-                <div className='text-white flex items-center justify-center w-20'>
-                    <button>
-                        <CiMenuBurger size={30} />
-                    </button>
-                </div>
                 <div className='w-fit text'>
                     <img src={Logo} width={300} alt="Logo" />
                 </div>
@@ -56,6 +51,9 @@ function Header({ toggleSidebar, toggleWhiteboard, setIsLoggedOut }) {
                 </div>
                 <div className='hover:border-2 hover:bg-gray-700 hover:transition-delay: 500ms p-2 rounded-md' onClick={toggleSidebar}>
                     Problem Statements
+                </div>
+                <div className='hover:border-2 hover:bg-gray-700 hover:transition-delay: 500ms p-2 rounded-md' onClick={toggleCode}>
+                    MyCodes
                 </div>
                 <div className='hover:border-2 hover:bg-gray-700 hover:transition-delay: 500ms p-2 rounded-md' onClick={handleLogout}>
                     Log out

@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import socket from './socket';
 import Whiteboard from './components/Whiteboard';
 import ChatBox from './components/ChatBox';
+import MyCode from './components/MyCode';
 
 function Home({ setIsLoggedOut }) {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -16,9 +17,14 @@ function Home({ setIsLoggedOut }) {
     const location = useLocation();
     const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
     const [isWhiteboardOpen, setIsWhiteboardOpen] = useState(false);
+    const [isCodeOpen, setIsCodeOpen] = useState(false);
 
     const toggleSidebar = () => {
         setIsSideDrawerOpen(!isSideDrawerOpen);
+    };
+
+    const toggleCode = () => {
+        setIsCodeOpen(!isCodeOpen);
     };
 
     const toggleWhiteboard = () => {
@@ -48,8 +54,9 @@ function Home({ setIsLoggedOut }) {
 
     return (
         <div>
-            <Header toggleSidebar={toggleSidebar} toggleWhiteboard={toggleWhiteboard} setIsLoggedOut={setIsLoggedOut} />
+            <Header toggleSidebar={toggleSidebar} toggleCode={toggleCode} toggleWhiteboard={toggleWhiteboard} setIsLoggedOut={setIsLoggedOut} />
             <ProblemsPage isOpen={isSideDrawerOpen} setIsSideDrawerOpen={setIsSideDrawerOpen} />
+            <MyCode isOpen={isCodeOpen} setIsCodeOpen={setIsCodeOpen} />
             <Whiteboard isOpen={isWhiteboardOpen} setIsWhiteboardOpen={setIsWhiteboardOpen} />
             <Editor />
             <ChatBox />

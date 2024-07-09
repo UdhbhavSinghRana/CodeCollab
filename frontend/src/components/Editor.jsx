@@ -129,6 +129,7 @@ function Editor() {
       }, []);
 
       const handleCodeChange = (newValue) => {
+        console.log(newValue)
         setCode(newValue);
         socket.emit('code-update', { room, code: newValue });
       };
@@ -167,7 +168,6 @@ function Editor() {
           alert("User information is missing");
           return;
         }
-      
         const data = {
           title: tempTitle,
           code: code,
@@ -205,7 +205,12 @@ function Editor() {
         .then((res) => res.json())
         .then((data) => {
             console.log(data);
-            setOutput(data.output);
+            if (!data.output) {
+              setOutput(data.error)
+            }
+            else {
+              setOutput(data.output);
+            }
         })
         .catch((error) => {
             console.error('Error:', error);

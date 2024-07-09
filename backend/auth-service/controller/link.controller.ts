@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 interface ICreateLink {
   title: string;
   userId: string;
+  code?: string;
 }
 
 export const mock = (req: Request, res: Response) => {
@@ -19,10 +20,12 @@ export const createLink = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     const { title } = req.body;
     const userId = req.user?._id || "";
+    const currCode = req.body.code || "";
 
     const link: ICreateLink = {
       title,
       userId: userId as string,
+      code: currCode
     };
 
     const newLink = await linkModel.create(link);
@@ -37,6 +40,7 @@ export const GetAllLinks = CatchAsyncErrors(
     const userId = req.user?._id;
 
     const links = await linkModel.find({ userId });
+    console.log("links: ", links);
 
     res.status(200).json({ success: true, data: links });
   }

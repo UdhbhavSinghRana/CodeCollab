@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Home from './Home';
 import SignIn from './components/SignIn';
 import Activation from './components/Activation';
+import CodeContextProvider from './context/codeContext';
 
 function App() {
   const [isLoggedOut, setIsLoggedOut] = useState(false);
@@ -11,6 +12,7 @@ function App() {
 
   return (
     <>
+    <CodeContextProvider>
       <Router>
         <Routes>
           <Route path="/" element={userInfo && !isLoggedOut ? <Home setIsLoggedOut={setIsLoggedOut} /> : <Navigate to="/SignIn" />} />
@@ -19,6 +21,7 @@ function App() {
           <Route path="/activation" element={<Activation setIsLoggedOut={setIsLoggedOut} />} />
         </Routes>
       </Router>
+    </CodeContextProvider>
     </>
   );
 }

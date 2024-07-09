@@ -10,6 +10,11 @@ interface ICreateLink {
   userId: string;
 }
 
+export const mock = (req: Request, res: Response) => {
+  res.cookie('testing', 'ok')
+  res.send("cookie ok")
+}
+
 export const createLink = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     const { title } = req.body;

@@ -8,8 +8,8 @@ import { updateAccessToken } from "../controller/user.controller";
 // authenticated user
 export const isAutheticated = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("access_token", req.cookies)
     const access_token = req.cookies.access_token as string;
+    console.log("access: ", access_token);
 
     if (!access_token) {
       return next(

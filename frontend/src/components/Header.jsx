@@ -3,6 +3,7 @@ import Logo from '../assets/logo.png';
 import { IoCopy } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import { CiMenuBurger } from "react-icons/ci";
 
 function Header({ toggleSidebar, toggleWhiteboard, setIsLoggedOut }) {
     const navigate = useNavigate();
@@ -32,8 +33,15 @@ function Header({ toggleSidebar, toggleWhiteboard, setIsLoggedOut }) {
 
     return (
         <div className='flex justify-items-center bg-gray-800'>
-            <div className='w-fit text'>
-                <img src={Logo} width={300} alt="Logo" />
+            <div className='flex'>
+                <div className='text-white flex items-center justify-center w-20'>
+                    <button>
+                        <CiMenuBurger size={30} />
+                    </button>
+                </div>
+                <div className='w-fit text'>
+                    <img src={Logo} width={300} alt="Logo" />
+                </div>
             </div>
             <div className='text-slate-200 flex justify-end w-full gap-16 items-center pr-10'>
                 <div className='hover:border-2 hover:bg-gray-700 p-2 rounded-md flex items-center' onClick={copyRoomURLToClipboard}>

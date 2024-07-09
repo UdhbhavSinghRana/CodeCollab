@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AceEditor from "react-ace";
 // import io from "socket.io-client"
 import socket from '../socket';
@@ -6,6 +6,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { CiSaveDown2 } from "react-icons/ci";
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { codeContext } from '../context/codeContext';
 
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-javascript";
@@ -73,11 +75,11 @@ const themes = [
   ]
 
 function Editor() {
+    const { code, setCode } = useContext(codeContext);
     const [title, setTitle] = useState('temp');
     const [theme, setTheme] = useState('tomorrow_night_blue');
     const [lang, setLang] = useState('java');
     const [fontSize, setFontSize] = useState(16);
-    const [code, setCode] = useState('');
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
     // const [room, setRoom] = useState('');
@@ -152,6 +154,7 @@ function Editor() {
       }
 
       const handleSave = () => {
+        console.log(Cookies.get('access_token'));
         const tempTitle = prompt('Enter the title of the file');
         if (!tempTitle) {
           alert("Title is required to save the file");
@@ -175,8 +178,7 @@ function Editor() {
           withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${userInfo.accessToken}
-            `
+            'Authorization': `Bearer ${userInfo.accessToken}`
           }
         })
         .then((res) => {

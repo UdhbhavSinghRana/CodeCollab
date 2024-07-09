@@ -98,6 +98,7 @@ function SignIn({ setIsLoggedOut }) {
                     headers: {
                         "Content-Type": "application/json",
                     },
+                    withCredentials: true
                 };
                 const { data } = await axios.post(
                     `${BASE_URL}/api/registration`,
@@ -105,9 +106,7 @@ function SignIn({ setIsLoggedOut }) {
                     config
                 );
 
-                localStorage.setItem("userInfo", JSON.stringify(data.activationToken));
-                Cookies.set('token', data.activationToken);
-                console.log(data);
+                localStorage.setItem("userInfo", JSON.stringify(data));
                 navigate('/activation');
                 setUser(data);
             } catch (err) {
@@ -124,6 +123,7 @@ function SignIn({ setIsLoggedOut }) {
                     headers: {
                         "Content-Type": "application/json",
                     },
+                    withCredentials: true
                 };
                 const { data } = await axios.post(
                     `${BASE_URL}/api/login`,
@@ -132,8 +132,6 @@ function SignIn({ setIsLoggedOut }) {
                 );
 
                 localStorage.setItem("userInfo", JSON.stringify(data));
-                Cookies.set('access_token', data.accessToken, { expires: 7 });
-                console.log(Cookies.get('access_token'));
                 console.log(data); 
                 setIsLoggedOut(false);
                 navigate('/');

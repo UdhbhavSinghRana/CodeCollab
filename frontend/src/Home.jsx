@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import io from "socket.io-client";
 import socket from './socket';
 import Whiteboard from './components/Whiteboard';
+import ChatBox from './components/ChatBox';
 
 
 function Home() {
@@ -46,6 +47,7 @@ function Home() {
         <ProblemsPage  isOpen={isSideDrawerOpen} setIsSideDrawerOpen={setIsSideDrawerOpen}/>
         <Whiteboard isOpen={isWhiteboardOpen} setIsWhiteboardOpen={setIsWhiteboardOpen}/>
         <Editor />
+        <ChatBox/>
     </div>
   )
 }

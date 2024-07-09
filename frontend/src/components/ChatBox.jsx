@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import socket from '../socket';
 
 const ChatBox = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,16 +9,25 @@ const ChatBox = () => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
-
+  const urlParams = new URLSearchParams(window.location.search);
+  const roomCode = urlParams.get('room');
   const handleSendMessage = () => {
     if (input.trim()) {
-      // socket.emit("room-chat-message", roomDetails.roomCode, newMessage);
+      socket.emit("send-message", {room: roomCode, user: "name", text: input});
       setMessages((prevMessages) => [...prevMessages, { user: "You", text: input }]);
       setInput('');
     }
   };
 
   //use effect to be used for creating a event that hear a new message from the room
+  useEffect(() => {
+    socket.on("receive-message", (data) => {
+      setMessages((prevMessages) => [...prevMessages, { user: data.user, text: data.text }]);
+    });
+    return () => {
+      socket.off("receive-message");
+    }
+  },[]);
 
   return (
     <div className="fixed bottom-4 right-4">

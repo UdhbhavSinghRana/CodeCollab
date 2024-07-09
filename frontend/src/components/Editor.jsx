@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AceEditor from "react-ace";
-import io from "socket.io-client"
+// import io from "socket.io-client"
 import socket from '../socket';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -30,9 +30,7 @@ import "ace-builds/src-noconflict/ext-language_tools";
 
 
 function onChange(newValue) {
-    console.log("change", newValue);
-
-    io.emit('code-update', newValue);
+  socket.emit('code-update', newValue);
 }
 
 const fontSizes = [
@@ -78,17 +76,16 @@ function Editor() {
     const [code, setCode] = useState('');
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
-    const [room, setRoom] = useState('');
-
-
-    useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
+    // const [room, setRoom] = useState('');
+    const urlParams = new URLSearchParams(window.location.search);
         const room = urlParams.get('room');
+    useEffect(() => {
+        
         console.log(room);
-        if (room) {
-          setRoom(room);
-          socket.emit('join-room', room);
-        }
+        // if (room) {
+        //   setRoom(room);
+        //   socket.emit('join-room', room);
+        // }
     
         socket.on('theme-update', (data) => {
           setTheme(data.theme);
@@ -115,6 +112,7 @@ function Editor() {
         });
     
         return () => {
+          // socket.emit('leave-room', room);
           socket.off('theme-update');
           socket.off('lang-update');
           socket.off('font-size-update');

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import io from "socket.io-client";
 import socket from '../socket';
 
 function Whiteboard({ isOpen, setIsWhiteboardOpen }) {

@@ -66,6 +66,19 @@ io.on('connection', (socket) => {
   socket.on('color-update', (data) => {
     io.to(data.room).emit('color-update', data);
   });
+
+  // Chat box message handling
+  socket.on('send-message', (data) => {
+    console.log(io.sockets.adapter.rooms);
+    const room = io.sockets.adapter.rooms.get(data.room);
+    console.log(room, socket.id);
+    socket.to(data.room).emit('receive-message', { user: data.user, text: data.text });
+  });
+
+  socket.on('leave-room', (roomCode) => {
+    socket.leave(roomCode);
+    console.log(`Socket ID ${socket.id} left room ${roomCode}`);
+  });
 });
 
 const PORT = process.env.PORT || 4000;

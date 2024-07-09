@@ -177,7 +177,7 @@ export const logoutUser = CatchAsyncErrors(
       res.cookie("access_token", "", { maxAge: 1 });
       res.cookie("refresh_token", "", { maxAge: 1 });
       const userId = req.user?._id || "";
-      redis.del(userId);
+      redis.del(userId as string);
       res.status(200).json({
         success: true,
         message: "Logged out successfully",
@@ -247,7 +247,7 @@ export const getUserInfo = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user?._id;
-      getUserById(userId, res);
+      getUserById(userId as string, res);
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
     }
@@ -274,7 +274,7 @@ export const updateUserInfo = CatchAsyncErrors(
 
       await user?.save();
 
-      await redis.set(userId, JSON.stringify(user));
+      await redis.set(userId as string, JSON.stringify(user));
 
       res.status(201).json({
         success: true,
@@ -317,7 +317,7 @@ export const updatePassword = CatchAsyncErrors(
 
       await user.save();
 
-      await redis.set(req.user?._id, JSON.stringify(user));
+      await redis.set(req.user?._id as string, JSON.stringify(user));
 
       res.status(201).json({
         success: true,

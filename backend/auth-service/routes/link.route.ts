@@ -4,6 +4,7 @@ import {
     GetAllLinks,
     saveLink,
     deleteLink,
+    mock
 } from "../controller/link.controller";
 import { isAutheticated } from "../middleware/auth";
 
@@ -16,5 +17,9 @@ linkRouter.get("/all", isAutheticated, GetAllLinks);
 linkRouter.post("/save/:id", isAutheticated, saveLink);
 
 linkRouter.delete("/delete/:id", isAutheticated, deleteLink);
+
+linkRouter.post("/mock", mock);
+
+
 
 export default linkRouter;

@@ -9,6 +9,7 @@ import { updateAccessToken } from "../controller/user.controller";
 export const isAutheticated = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     const access_token = req.cookies.access_token as string;
+    console.log("access: ", access_token);
 
     if (!access_token) {
       return next(

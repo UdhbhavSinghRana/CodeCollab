@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AceEditor from "react-ace";
 // import io from "socket.io-client"
 import socket from '../socket';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { CiSaveDown2 } from "react-icons/ci";
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { codeContext } from '../context/codeContext';
 
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-javascript";
@@ -27,6 +31,7 @@ import "ace-builds/src-noconflict/theme-ambiance";
 import "ace-builds/src-noconflict/theme-solarized_light";
 
 import "ace-builds/src-noconflict/ext-language_tools";
+import { useNavigate } from 'react-router-dom';
 
 
 function onChange(newValue) {
@@ -70,10 +75,11 @@ const themes = [
   ]
 
 function Editor() {
+    const { code, setCode } = useContext(codeContext);
+    const [title, setTitle] = useState('temp');
     const [theme, setTheme] = useState('tomorrow_night_blue');
     const [lang, setLang] = useState('java');
     const [fontSize, setFontSize] = useState(16);
-    const [code, setCode] = useState('');
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
     // const [room, setRoom] = useState('');
@@ -123,6 +129,7 @@ function Editor() {
       }, []);
 
       const handleCodeChange = (newValue) => {
+        console.log(newValue)
         setCode(newValue);
         socket.emit('code-update', { room, code: newValue });
       };
@@ -147,6 +154,42 @@ function Editor() {
         socket.emit('output-update', { room, output: newValue });
       }
 
+      const handleSave = () => {
+        console.log(Cookies.get('access_token'));
+        const tempTitle = prompt('Enter the title of the file');
+        if (!tempTitle) {
+          alert("Title is required to save the file");
+          return;
+        }
+        setTitle(tempTitle);
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        console.log(userInfo);
+        if (!userInfo) {
+          alert("User information is missing");
+          return;
+        }
+        const data = {
+          title: tempTitle,
+          code: code,
+          userId: userInfo.user._id
+        };
+
+        axios.post('http://localhost:5000/api/create', data, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${userInfo.accessToken}`
+          }
+        })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+      };
+      
+
       const handleRun = () => {
         fetch('http://localhost:3000/compile', {
             method: 'POST',
@@ -162,7 +205,12 @@ function Editor() {
         .then((res) => res.json())
         .then((data) => {
             console.log(data);
-            setOutput(data.output);
+            if (!data.output) {
+              setOutput(data.error)
+            }
+            else {
+              setOutput(data.output);
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -183,7 +231,7 @@ function Editor() {
 
     return (
         <div className='z-1'>
-            <div className='flex gap-2'>
+            <div className='flex gap-3'>
                 <div>
                     <select value={theme} onChange={(e) => setTheme(e.target.value)}>
                         {themes.map((theme, index) => (
@@ -210,6 +258,11 @@ function Editor() {
                             </option>
                         ))}
                     </select>
+                </div>
+                <div className='w'>
+                  <button onClick={handleSave}>
+                    <CiSaveDown2 />
+                  </button>
                 </div>
             </div>
             <div className='flex'>

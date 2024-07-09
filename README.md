@@ -9,7 +9,7 @@ CodeCollab is a web application that facilitates real-time collaborative coding.
 - **Multi-language Code Editor**: Supports simultaneous editing and viewing of code in multiple programming languages.
 - **Problem Statements**: Provides a dedicated section for viewing and tackling assigned tasks or problems.
 - **Real-time Chat Box**: Includes a chat interface for instant communication among room participants.
-- **Save-Code**: Provides an option for users to download their code locally.
+- **Save-Code**: Provides an option for users to retrieve and work on their saved code later.
 
 ## Usage
 
@@ -36,7 +36,7 @@ To effectively utilize CodeCollab, follow these steps:
    - Discuss ideas, ask questions, or coordinate coding efforts efficiently.
 
 6. **Save the Code**:
-   - Use the "Save Code" feature to download the code locally for offline access.
+   - Use the "Save Code" feature to work on their saved code later.
 
 ## Technologies Used
 ### Frontend:

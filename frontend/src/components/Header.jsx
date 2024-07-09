@@ -4,14 +4,12 @@ import { IoCopy } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 function Header({toggleSidebar, toggleWhiteboard}) {
-    // Function to copy the current URL to clipboard
-    const copyRoomURLToClipboard = () => {
+        const copyRoomURLToClipboard = () => {
         const currentUrl = window.location.href;
         navigator.clipboard.writeText(currentUrl);
         showNotification("Copied");
     };
 
-    // Function to show toast notification
     const showNotification = (message) => {
         toast.success(message);
     };

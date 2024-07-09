@@ -3,7 +3,6 @@ import Header from './components/Header'
 import Editor from './components/Editor'
 import ProblemsPage from "./components/Problems/problems";// Import the Problems component
 import { useLocation, useNavigate } from 'react-router-dom';
-import io from "socket.io-client";
 import socket from './socket';
 import Whiteboard from './components/Whiteboard';
 import ChatBox from './components/ChatBox';
@@ -39,8 +38,15 @@ function Home() {
   useEffect(() => {
     socket.on('toggled-whiteboard', (data) => {
       setIsWhiteboardOpen(data.isWhiteboardOpen);
+    });
+  },[]);
+
+  useEffect(() => {
+    if(room) socket.emit('join-room', room);
+    return () => {
+      if(room) socket.emit('leave-room', room);
     }
-  ),[]});
+  },[room]);
 
   return (
     <div>

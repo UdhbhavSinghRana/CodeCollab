@@ -1,149 +1,160 @@
 import React, { useState } from 'react';
-import { IoMdClose } from "react-icons/io";
-import './problems.css'; // Ensure Tailwind CSS styles are properly imported
+import { IoMdClose } from 'react-icons/io';
+import { IoAddOutline } from 'react-icons/io5';
+import { useForm } from 'react-hook-form';
+import './problems.css';
 
-function Problems({ isOpen, setIsSideDrawerOpen  }) {
-  const [selectedProblemConstraints, setSelectedProblemConstraints] = useState('');
-  const [selectedProblemComplex, setSelectedProblemComplex] = useState('');
-  const [selectedProblemTC, setSelectedProblemTC] = useState('');
-  const [selectedProblemDesc, setSelectedProblemDesc] = useState('');
-  const [selectedProblemName, setSelectedProblemName] = useState('');
-  const [isShow, setIsShow] = useState(false);
+const initialProblemsData = [
+  {
+    id: '1',
+    name: 'Missing number in array',
+    description: `Given an array of size N-1 such that it only contains distinct integers in the range of 1 to N. Find the missing element.\n\nYour Task: Complete the function MissingNumber() that takes array and N as input parameters and returns the value of the missing number.`,
+    testcase: `Test Case:\nInput:\nN = 5\nA[] = {1,2,3,5}\nOutput: 4\n\nInput:\nN = 10\nA[] = {6,1,2,8,3,4,7,10,5}\nOutput: 9`,
+    expectedComplexity: `Expected Time Complexity: O(N)\nExpected Auxiliary Space: O(1)`,
+    constraints: `Constraints:\n1 ≤ N ≤ 10^6\n1 ≤ A[i] ≤ 10^6`,
+  },
+  {
+    id: '2',
+    name: 'Stock buy and sell',
+    description: `The cost of stock on each day is given in an array A[] of size N. Find all the segments of days on which you buy and sell the stock so that in between those days your profit is maximum.`,
+    testcase: `Test Case:\nInput:\nN = 7\nA[] = {100,180,260,310,40,535,695}\nOutput: 1\nExplanation: One possible solution is (0 3) (4 6).`,
+    expectedComplexity: `Expected Time Complexity: O(N)\nExpected Auxiliary Space: O(N)`,
+    constraints: `Constraints:\n2 ≤ N ≤ 10^6\n0 ≤ A[i] ≤ 10^6`,
+  },
+  {
+    id: '3',
+    name: 'Subarray with given sum',
+    description: `Given an unsorted array A of size N that contains only non-negative integers, find a continuous sub-array that adds to a given number S and return the left and right index(1-based indexing) of that subarray.`,
+    testcase: `Test Case:\nInput:\nN = 5, S = 12\nA[] = {1,2,3,7,5}\nOutput: 2 4\nExplanation: The sum of elements from 2nd position to 4th position is 12.`,
+    expectedComplexity: `Expected Time Complexity: O(N)\nExpected Auxiliary Space: O(1)`,
+    constraints: `Constraints:\n2 ≤ N ≤ 10^5\n0 ≤ A[i] ≤ 10^9`,
+  },
+];
+
+function Problems({ isOpen, setIsSideDrawerOpen }) {
+  const [selectedProblem, setSelectedProblem] = useState(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [problemsData, setProblemsData] = useState(initialProblemsData);
+  const { register, handleSubmit, reset } = useForm();
 
   const handleClick = (problem) => {
-    setSelectedProblemConstraints(problem.constraints);
-    setSelectedProblemComplex(problem.expectedComplexity);
-    setSelectedProblemTC(problem.testcase);
-    setSelectedProblemDesc(problem.description);
-    setSelectedProblemName(problem.name);
-    setIsSideDrawerOpen(false); // Close sidebar when problem is clicked
+    setSelectedProblem(problem);
+    setIsSideDrawerOpen(false);
   };
 
-  const problems = [
-    {
-      name: "Missing number in array",
-      description: `Given an array of size N-1 such that it only contains distinct integers in the range of 1 to N. Find the missing element.
+  const handleFormOpen = () => {
+    setIsFormOpen(true);
+  };
 
-Your Task :You don't need to read input or print anything. Complete the function MissingNumber() that takes array and N as input parameters and returns the value of the missing number.`,
-      testcase: `Test Case:        
-Input:
-N = 5
-A[] = {1,2,3,5}
-Output: 4
+  const handleFormClose = () => {
+    setIsFormOpen(false);
+  };
 
-Input:
-N = 10
-A[] = {6,1,2,8,3,4,7,10,5}
-Output: 9`,
-      expectedComplexity: `Expected Time Complexity: O(N)
-Expected Auxiliary Space: O(1)`,
-      constraints: `Constraints:
-1 ≤ N ≤ 106
-1 ≤ A[i] ≤ 106`,
-    },
-    {
-      name: "Stock buy and sell",
-      description: `The cost of stock on each day is given in an array A[] of size N. Find all the segments of days on which you buy and sell the stock so that in between those days your profit is maximum.
-Note: Since there can be multiple solutions, the driver code will print 1 if your answer is correct, otherwise, it will return 0. In case there's no profit the driver code will print the string "No Profit" for a correct solution.`,
-      testcase: `Test Case:        
-Input:
-N = 7
-A[] = {100,180,260,310,40,535,695}
-Output:
-1
-Explanation:
-One possible solution is (0 3) (4 6) We can buy stock on day 0, and sell it on 3rd day, which will give us maximum profit. Now, we buy stock on day 4 and sell it on day 6.
-Example 2:
-
-Input:
-N = 5
-A[] = {4,2,2,2,4}
-Output:
-1
-Explanation:
-There are multiple possible solutions one of them is (3 4). We can buy stock on day 3, and sell it on 4th day, which will give us maximum profit.`,
-      expectedComplexity: `Expected Time Complexity: O(N)
-Expected Auxiliary Space: O(N)`,
-      constraints: `Constraints:
-2 ≤ N ≤ 106
-0 ≤ A[i] ≤ 106`,
-    },
-    {
-      name: "Subarray with given sum",
-      description: `Given an unsorted array A of size N that contains only non-negative integers, find a continuous sub-array that adds to a given number S and return the left and right index(1-based indexing) of that subarray.
-In case of multiple subarrays, return the subarray indexes which come first on moving from left to right.
-
-Note:- You have to return an ArrayList consisting of two elements left and right. In case no such subarray exists return an array consisting of element -1.`,
-      testcase: `Test Case:        
-Input:
-N = 5, S = 12
-A[] = {1,2,3,7,5}
-Output: 2 4
-Explanation: The sum of elements from 2nd position to 4th position is 12.
-  
-Input:
-N = 10, S = 15
-A[] = {1,2,3,4,5,6,7,8,9,10}
-Output: 1 5
-Explanation: The sum of elements from 1st position to 5th position is 15.`,
-      expectedComplexity: `Expected Time Complexity: O(N)
-Expected Auxiliary Space: O(1)`,
-      constraints: `Constraints:
-2 ≤ N ≤ 105
-0 ≤ A[i] ≤ 109`,
-    }
-  ];
+  const handleAddProblem = (data) => {
+    const newProblem = {
+      id: problemsData.length + 1,
+      name: data.name,
+      description: data.description,
+      testcase: data.testcase,
+      expectedComplexity: data.expectedComplexity,
+      constraints: data.constraints,
+    };
+    setProblemsData([...problemsData, newProblem]);
+    setIsFormOpen(false);
+    reset();
+  };
 
   return (
     <div className='flex justify-center content-center'>
-      {/* Sidebar */}
-      <div className={`SideDrawer ${isOpen  ? 'open' : ''}`}>
-        <div className='flex justify-end p-4'>
+      <div className={`SideDrawer ${isOpen ? 'open' : ''}`}>
+        <div className='flex justify-between p-4'>
+          <IoAddOutline className='close-button' onClick={handleFormOpen} />
           <IoMdClose className='close-button' onClick={() => setIsSideDrawerOpen(false)} />
         </div>
-        {/* Sidebar content */}
         <ul>
-          {problems.map((problem, index) => (
+          {problemsData.map((problem, index) => (
             <li key={index}>
               <button
-                className='block text-left px-4 py-2 w-full'
-                onClick={() => {
-              handleClick(problem);
-              setIsShow(true);
-            }}
+                className='block text-left px-4 py-2 w-full hover:bg-gray-200 rounded-lg text-gray-800'
+                onClick={() => handleClick(problem)}
               >
-                {problem.name}
+                {problem.id}. {problem.name}
               </button>
             </li>
           ))}
         </ul>
       </div>
 
-      {/* Problem details section */}
-      <div className="flex overflow-auto bg-neutral-700 text-white">       {isShow && (
-          <div className="p-10">
-            <div
-              className="absolute inline right-10 text-4xl cursor-pointer bg-neutral-700 text-white "
-              onClick={() => {
-                setIsShow(false);
-              }}
-            >
-              &#x2715;
+      {selectedProblem && (
+        <div className='flex overflow-auto bg-gray-200 text-gray-800 p-10'>
+          <div className='absolute top-4 right-4 text-3xl cursor-pointer' onClick={() => setSelectedProblem(null)}>
+            &#x2715;
+          </div>
+          <div className='font-mono'>
+            <div className='font-bold text-3xl capitalize'>{selectedProblem.name}</div>
+            <br />
+            <div>{selectedProblem.description}</div>
+            <br />
+            <pre>{selectedProblem.testcase}</pre>
+            <br />
+            <pre>{selectedProblem.constraints}</pre>
+            <br />
+            <pre>{selectedProblem.expectedComplexity}</pre>
+          </div>
+        </div>
+      )}
+
+      {isFormOpen && (
+        <div className='absolute top-0 left-0 w-full h-full flex items-center justify-center'>
+          <div className='bg-gray-800 bg-opacity-75 absolute top-0 left-0 w-full h-full'></div>
+          <div className='bg-white rounded-lg p-8 w-96 z-50 relative'>
+            <div className='flex justify-between items-center mb-4'>
+              <h2 className='text-xl font-bold'>Add New Problem</h2>
+              <IoMdClose className='cursor-pointer' onClick={handleFormClose} />
             </div>
-            <div className="font-mono">
-              <div className="font-bold text-4xl capitalize">{selectedProblemName}</div>
-                <br/> 
-                <div>{selectedProblemDesc}</div>
-                <br/> 
-                <pre>{selectedProblemTC}</pre>
-                <br/> 
-                <pre>{selectedProblemConstraints}</pre>
-                <br/> 
-                <pre>{selectedProblemComplex}</pre>
+            <form className='space-y-4' onSubmit={handleSubmit(handleAddProblem)}>
+              <input
+                type='text'
+                {...register('name', { required: true })}
+                placeholder='Name'
+                className='w-full border-gray-300 rounded-md px-3 py-2'
+              />
+              <textarea
+                {...register('description', { required: true })}
+                placeholder='Description'
+                rows='4'
+                className='w-full border-gray-300 rounded-md px-3 py-2'
+              ></textarea>
+              <textarea
+                {...register('testcase', { required: true })}
+                placeholder='Test Case'
+                rows='4'
+                className='w-full border-gray-300 rounded-md px-3 py-2'
+              ></textarea>
+              <textarea
+                {...register('expectedComplexity', { required: true })}
+                placeholder='Expected Complexity'
+                rows='2'
+                className='w-full border-gray-300 rounded-md px-3 py-2'
+              ></textarea>
+              <textarea
+                {...register('constraints', { required: true })}
+                placeholder='Constraints'
+                rows='2'
+                className='w-full border-gray-300 rounded-md px-3 py-2'
+              ></textarea>
+              <div className='flex justify-end'>
+                <button
+                  type='submit'
+                  className='bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600'
+                >
+                  Add Problem
+                </button>
               </div>
-            </div>
-        )}
-      </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

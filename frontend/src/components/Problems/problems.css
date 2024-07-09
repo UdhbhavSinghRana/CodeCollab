@@ -1,63 +1,47 @@
-/* problems.css */
-
-/* Positioning and styling for the SideDrawer */
 .SideDrawer {
-    /* Fixed positioning */
-    position: fixed;
-    top: 0;
-    right: 0;
-    /* Background color */
-    background-color: #f3f4f6; /* Light background color */
-    /* Width and height adjustments */
-    width: 300px; /* Adjust as needed */
-    height: 100%; /* Full height of the screen */
-    /* Padding for content */
-    padding: 20px;
-    /* Transitions for smooth animation */
-    transition: transform 0.3s ease-in-out;
-    transform: translateX(100%); /* Start off-screen to the right */
-    z-index: 50; /* Ensure it's above other content */
-    /* Styling for the sidebar content */
-    border-left: 1px solid #ccc; /* Add a border for separation */
-  }
-  
-  /* Show the SideDrawer when open class is applied */
-  .SideDrawer.open {
-    transform: translateX(0); /* Slide in from the right */
-  }
-  
-  /* Styling for the close button */
-  .SideDrawer .close-button {
-    color: #333; /* Dark color for the close button */
-    cursor: pointer;
-    font-size: 1.5rem; /* Adjust size as needed */
-  }
-  
-  /* Hover effect for the close button */
-  .SideDrawer .close-button:hover {
-    color: #000; /* Darken color on hover */
-  }
-  
-  /* Styling for the links */
-  .SideDrawer ul {
-    list-style-type: none; /* Remove default list styles */
-    padding: 0;
-  }
-  
-  .SideDrawer ul li {
-    padding: 8px 0;
-  }
-  
-  .SideDrawer ul li a {
-    display: block;
-    padding: 8px 20px;
-    color: #333; /* Dark color for links */
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  .SideDrawer ul li a:hover {
-    background-color: #e5e7eb; /* Lighten background on hover */
-    color: #000; /* Darken text color on hover */
-  }
-  
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: rgb(31 41 55);
+  width: 300px;
+  height: 100%; 
+  padding: 20px; 
+  transition: transform 0.3s ease-in-out; 
+  transform: translateX(100%);
+  z-index: 50; 
+  border-left: 1px solid #ccc;
+}
+
+.SideDrawer.open {
+  transform: translateX(0);
+}
+
+.SideDrawer .close-button {
+  color: #fff; 
+  cursor: pointer;
+  font-size: 1.5rem; 
+}
+
+.SideDrawer .close-button:hover {
+  color: #f0f0f0;
+}
+
+.SideDrawer ul li {
+  padding: 8px 0;
+}
+
+.SideDrawer ul li button {
+  display: block;
+  padding: 8px 20px;
+  color: #fff; 
+  background-color: transparent; 
+  border: none; 
+  width: 100%;
+  text-align: left; 
+  transition: background-color 0.3s ease;
+}
+
+.SideDrawer ul li button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}

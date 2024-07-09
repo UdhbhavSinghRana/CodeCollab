@@ -184,7 +184,7 @@ function Editor() {
       }, [output]);
 
     return (
-        <div>
+        <div className='z-1'>
             <div className='flex gap-2'>
                 <div>
                     <select value={theme} onChange={(e) => setTheme(e.target.value)}>

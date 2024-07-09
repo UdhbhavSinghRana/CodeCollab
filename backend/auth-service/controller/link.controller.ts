@@ -17,7 +17,7 @@ export const createLink = CatchAsyncErrors(
 
     const link: ICreateLink = {
       title,
-      userId,
+      userId: userId as string,
     };
 
     const newLink = await linkModel.create(link);

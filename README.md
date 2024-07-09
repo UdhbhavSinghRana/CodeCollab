@@ -1,6 +1,6 @@
 # CodeCollab
 
-CodeCollab is a web application that facilitates real-time collaborative coding. It enables multiple users to work together in a virtual room, featuring a shared code editor, problem statements, and a chat box for seamless communication.
+CodeCollab is a web application that facilitates real-time collaborative coding. It enables multiple users to work together in a virtual room, featuring a shared code editor, problem statements, save the code and a chat box for seamless communication.
 
 ## Features
 
@@ -9,6 +9,7 @@ CodeCollab is a web application that facilitates real-time collaborative coding.
 - **Multi-language Code Editor**: Supports simultaneous editing and viewing of code in multiple programming languages.
 - **Problem Statements**: Provides a dedicated section for viewing and tackling assigned tasks or problems.
 - **Real-time Chat Box**: Includes a chat interface for instant communication among room participants.
+- **Save-Code**: Provides an option for users to download their code locally.
 
 ## Usage
 
@@ -33,6 +34,9 @@ To effectively utilize CodeCollab, follow these steps:
 5. **Use the Chat Box**:
    - Engage with other participants using the integrated chat box, facilitated by Socket.io.
    - Discuss ideas, ask questions, or coordinate coding efforts efficiently.
+
+6. **Save the Code**:
+   - Use the "Save Code" feature to download the code locally for offline access.
 
 ## Technologies Used
 ### Frontend:

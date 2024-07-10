@@ -67,20 +67,42 @@ $ cd frontend
 $ npm run dev
 ```
 
-4. Navigate to backend:
+4. Navigate to auth-service:
 ```terminal
-$ cd backend
-$ npm run start-dev
+$ cd backend/auth-service
+$ npm start
 ```
 
 5. Set up environment variables:
-- Create a .env file in the root directory.
+- Create a .env file in the backend\auth-service directory.
 - Define the following variables:
-   PORT=5000
-   MONGODB_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
+   - PORT=5000
+   - MONGODB_URI='your_mongodb_connection_string'
+   - REDIS_URL='your_redis_url'
+   - ACTIVATION_SECRET='your_activation_secret'
+   - SMTP_HOST=smtp.gmail.com
+   - SMTP_PORT=465
+   - SMTP_PASSWORD='your_smtp_password'
+   - SMTP_SERVICE=gmail
+   - SMTP_MAIL='your_smtp_email'
+   - ACCESS_TOKEN='your_access_token'
+   - REFRESH_TOKEN='your_refresh_token'
+   - ACCESS_TOKEN_EXPIRE=5
+   - REFRESH_TOKEN_EXPIRE=3
 
-6. Access the application.
+6. Navigate to backend\compiler-service
+```terminal
+   cd backend\compiler-service
+   node index.js
+```
+
+7. Navigate to backend\socket-service
+```terminal
+   cd backend\socket-service
+   node index.js
+```
+
+8. Access the application.
 
 ## Screenshots
 

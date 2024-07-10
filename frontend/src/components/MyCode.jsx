@@ -3,6 +3,7 @@ import { IoMdClose } from 'react-icons/io';
 import { IoAddOutline } from 'react-icons/io5';
 import { useForm } from 'react-hook-form';
 import './Problems/problems.css';
+import { MdDelete } from "react-icons/md";
 import axios from 'axios';
 import { codeContext } from '../context/codeContext';
 
@@ -55,7 +56,7 @@ function MyCode({ isOpen, setIsCodeOpen }) {
                 </button>
                 <div>
                     <button onClick={() => handleDelete(code)}>
-                        delete
+                        <MdDelete className='text-white' />
                     </button>
                 </div>
                 </li>

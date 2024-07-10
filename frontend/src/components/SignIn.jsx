@@ -3,6 +3,7 @@ import axios from "axios";
 import socket from '../socket';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { toast } from "react-toastify";
 
 const BASE_URL = import.meta.env.PROD
     ? 'https://chatsphere-yuu4.onrender.com'
@@ -111,6 +112,7 @@ function SignIn({ setIsLoggedOut }) {
                 setUser(data);
             } catch (err) {
                 console.log(err);
+                toast.error("Wrong Credentials");
             }
         } else {
             console.log("Login");
@@ -137,6 +139,7 @@ function SignIn({ setIsLoggedOut }) {
                 navigate('/');
             } catch (err) {
                 console.log(err);
+                toast.error("Wrong Credentials");
             }
         }
 

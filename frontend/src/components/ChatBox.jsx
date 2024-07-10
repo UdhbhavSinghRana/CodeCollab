@@ -13,7 +13,7 @@ const ChatBox = () => {
   const roomCode = urlParams.get('room');
   const handleSendMessage = () => {
     if (input.trim()) {
-      socket.emit("send-message", {room: roomCode, user: "name", text: input});
+      socket.emit("send-message", {room: roomCode, user: "Sender", text: input});
       setMessages((prevMessages) => [...prevMessages, { user: "You", text: input }]);
       setInput('');
     }

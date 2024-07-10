@@ -105,6 +105,19 @@ $ npm start
 8. Access the application.
 
 ## Screenshots
+1. Home Page
+ ![Home Page](https://github.com/SANYA12SHARMA/CodeCollab/blob/master/Screenshots/HomePage.jpg)
+2. Signup Page
+ ![Signup Page](https://github.com/SANYA12SHARMA/CodeCollab/blob/master/Screenshots/SignupPage.jpg)
+3. Room URL Copied
+ ![URLCopied](https://github.com/SANYA12SHARMA/CodeCollab/blob/master/Screenshots/URLCopied.jpg)
+4. Whiteboard Section
+ ![WhiteboardSection](https://github.com/SANYA12SHARMA/CodeCollab/blob/master/Screenshots/WhiteboardSection.jpg)
+5. ChatBox Section
+ ![ChatBoxSection](https://github.com/SANYA12SHARMA/CodeCollab/blob/master/Screenshots/ChatBoxSection.jpg)
+6. Problem Statements Section
+ ![roblemStatementsSection](https://github.com/SANYA12SHARMA/CodeCollab/blob/master/Screenshots/ProblemStatementsSection.jpg)
+
 
 ## Future Scope of the Project
 

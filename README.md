@@ -76,19 +76,19 @@ $ npm start
 5. Set up environment variables:
 - Create a .env file in the backend\auth-service directory.
 - Define the following variables:
-   PORT=5000
-   MONGODB_URI='your_mongodb_connection_string'
-   REDIS_URL='your_redis_url'
-   ACTIVATION_SECRET='your_activation_secret'
-   SMTP_HOST=smtp.gmail.com
-   SMTP_PORT=465
-   SMTP_PASSWORD='your_smtp_password'
-   SMTP_SERVICE=gmail
-   SMTP_MAIL='your_smtp_email'
-   ACCESS_TOKEN='your_access_token'
-   REFRESH_TOKEN='your_refresh_token'
-   ACCESS_TOKEN_EXPIRE=5
-   REFRESH_TOKEN_EXPIRE=3
+   - PORT=5000
+   - MONGODB_URI='your_mongodb_connection_string'
+   - REDIS_URL='your_redis_url'
+   - ACTIVATION_SECRET='your_activation_secret'
+   - SMTP_HOST=smtp.gmail.com
+   - SMTP_PORT=465
+   - SMTP_PASSWORD='your_smtp_password'
+   - SMTP_SERVICE=gmail
+   - SMTP_MAIL='your_smtp_email'
+   - ACCESS_TOKEN='your_access_token'
+   - REFRESH_TOKEN='your_refresh_token'
+   - ACCESS_TOKEN_EXPIRE=5
+   - REFRESH_TOKEN_EXPIRE=3
 
 6. Navigate to backend\compiler-service
 ```terminal

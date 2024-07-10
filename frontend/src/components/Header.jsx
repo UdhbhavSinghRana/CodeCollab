@@ -8,9 +8,7 @@ import { CiMenuBurger } from "react-icons/ci";
 function Header({ toggleSidebar, toggleWhiteboard, setIsLoggedOut, toggleCode }) {
     const navigate = useNavigate();
 
-
-function Header({toggleSidebar, toggleWhiteboard}) {
-        const copyRoomURLToClipboard = () => {
+    const copyRoomURLToClipboard = () => {
         const currentUrl = window.location.href;
         navigator.clipboard.writeText(currentUrl);
         showNotification("Copied");
